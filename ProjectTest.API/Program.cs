@@ -11,13 +11,13 @@ var app = builder.Build();
 app.MapGet("/", () =>
 {
     app.Logger.LogInformation("Initial Home Get");
-    return "GET - Net 6 Running ... 22092023-v1.0.0 CI/CD in TRIGGER IS ACTIVE v1.2.0 POLYGLOT";
+    return "GET - Net 6 Running ... 22092023-v1.0.0 CI/CD in TRIGGER IS ACTIVE v1.2.0 POLYGLOT hola mundo";
 });
 
 app.MapPost("/", () =>
 {
     app.Logger.LogInformation("Initial Home Post");
-    return "POST - Net 6 Running ...22092023-v1.0.0 CI/CD in TRIGGER IS ACTIVE v1.2.0 POLYGLOT";
+    return "POST - Net 6 Running ...22092023-v1.0.0 CI/CD in TRIGGER IS ACTIVE v1.2.0 POLYGLOT hola mundo";
 });
 
 //app.Run($"http://0.0.0.0:{port}");
