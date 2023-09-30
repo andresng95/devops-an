@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('SCM') {
+            steps {
+                git branch: 'main', url: 'https://github.com/andresng95/devops-an.git'
+            }
+        }
+        stage('Build DotNet') {
+            steps {
+                bat(script: 'docker login --username andresng95 --password Sm@llville1995' , returnStdout:true);
+                bat(script: 'docker build -t andresng95/ms-account-v1 .' , returnStdout:true);
+                bat(script: 'docker push andresng95/ms-account-v1' , returnStdout:true);
+            }
+        }
+        
+        stage('CD AKS') {
+            steps {
+                bat(script: 'az login --service-principal --username 0cfcba24-d8c5-405c-8a52-891188eea9e5 --password 7Nl8Q~eAlMXY8HBnUEk0Msbpd9iRSvPmqk-PSaaz --tenant 24884996-6863-4925-a1ba-f1a160b581e2' , returnStdout:true);
+                bat(script: 'az account set --subscription 69705b67-6629-4784-9cef-011614194ef3' , returnStdout:true);
+                bat(script: 'az aks get-credentials --resource-group Aforo255Devops --name aksdevopsAn & kubectl config get-contexts --kubeconfig=%KUBE_PATH_CONFIG%' , returnStdout:true);
+                bat(script: 'kubectl config use-context aksdevopsAn --kubeconfig=%KUBE_PATH_CONFIG%' , returnStdout:true);
+                bat(script: 'kubectl apply -f k8s.yml --kubeconfig=%KUBE_PATH_CONFIG%' , returnStdout:true);
+                bat(script: 'kubectl rollout restart deployment app-deployment --kubeconfig=%KUBE_PATH_CONFIG%', returnStdout: true);
+            }
+        }
+        
+    }
+}
